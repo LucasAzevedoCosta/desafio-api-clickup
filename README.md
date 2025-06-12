@@ -21,6 +21,110 @@ A API expõe as seguintes rotas:
 - **Variáveis de Ambiente**: Dotenv
 - **Banco de Dados**: PostgreSQL
 
+## Docker
+
+Para facilitar a configuração do ambiente de banco de dados, este projeto inclui um arquivo `docker-compose.yml` que configura um contêiner PostgreSQL.
+
+### Configuração do Docker Compose
+
+O arquivo `docker-compose.yml` define um serviço de banco de dados PostgreSQL com as seguintes configurações:
+
+```yaml
+version: '3.8'
+services:
+  db:
+    image: postgres:13
+    container_name: desafioSerUtil
+    environment:
+      POSTGRES_USER: usuario
+      POSTGRES_PASSWORD: senha
+      POSTGRES_DB: desafioSerUtil
+    ports:
+      - "5439:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+```
+
+- `image: postgres:13`: Utiliza a imagem oficial do PostgreSQL versão 13.
+- `container_name: desafioSerUtil`: Define o nome do contêiner como `desafioSerUtil`.
+- `environment`: Configura as variáveis de ambiente para o PostgreSQL, incluindo usuário, senha e nome do banco de dados, que correspondem às configurações no `src/db/index.js` e no `.env`.
+- `ports: - "5439:5432"`: Mapeia a porta `5439` do host para a porta `5432` do contêiner, onde o PostgreSQL está escutando.
+- `volumes: - postgres_data:/var/lib/postgresql/data`: Persiste os dados do banco de dados em um volume nomeado `postgres_data`, garantindo que os dados não sejam perdidos ao reiniciar o contêiner.
+
+### Como usar o Docker Compose
+
+1. Certifique-se de ter o Docker e o Docker Compose instalados em sua máquina.
+2. Navegue até a raiz do projeto onde o arquivo `docker-compose.yml` está localizado.
+3. Execute o seguinte comando para iniciar o contêiner do banco de dados:
+
+   ```bash
+   docker-compose up -d
+   ```
+
+   Isso criará e iniciará o contêiner do PostgreSQL em segundo plano.
+
+4. Após iniciar o contêiner, você pode prosseguir com as migrações do banco de dados conforme descrito na seção "Como Rodar o Projeto".
+
+Para parar e remover o contêiner, execute:
+
+```bash
+docker-compose down
+```
+## Docker
+
+Para facilitar a configuração do ambiente de banco de dados, este projeto inclui um arquivo `docker-compose.yml` que configura um contêiner PostgreSQL.
+
+### Configuração do Docker Compose
+
+O arquivo `docker-compose.yml` define um serviço de banco de dados PostgreSQL com as seguintes configurações:
+
+```yaml
+version: '3.8'
+services:
+  db:
+    image: postgres:13
+    container_name: desafioSerUtil
+    environment:
+      POSTGRES_USER: usuario
+      POSTGRES_PASSWORD: senha
+      POSTGRES_DB: desafioSerUtil
+    ports:
+      - "5439:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+```
+
+- `image: postgres:13`: Utiliza a imagem oficial do PostgreSQL versão 13.
+- `container_name: desafioSerUtil`: Define o nome do contêiner como `desafioSerUtil`.
+- `environment`: Configura as variáveis de ambiente para o PostgreSQL, incluindo usuário, senha e nome do banco de dados, que correspondem às configurações no `src/db/index.js` e no `.env`.
+- `ports: - "5439:5432"`: Mapeia a porta `5439` do host para a porta `5432` do contêiner, onde o PostgreSQL está escutando.
+- `volumes: - postgres_data:/var/lib/postgresql/data`: Persiste os dados do banco de dados em um volume nomeado `postgres_data`, garantindo que os dados não sejam perdidos ao reiniciar o contêiner.
+
+### Como usar o Docker Compose
+
+1. Certifique-se de ter o Docker e o Docker Compose instalados em sua máquina.
+2. Navegue até a raiz do projeto onde o arquivo `docker-compose.yml` está localizado.
+3. Execute o seguinte comando para iniciar o contêiner do banco de dados:
+
+   ```bash
+   docker-compose up -d
+   ```
+
+   Isso criará e iniciará o contêiner do PostgreSQL em segundo plano.
+
+4. Após iniciar o contêiner, você pode prosseguir com as migrações do banco de dados conforme descrito na seção "Como Rodar o Projeto".
+
+Para parar e remover o contêiner, execute:
+
+```bash
+docker-compose down
+```
 ## Configuração do Ambiente
 
 Para rodar este projeto, você precisará configurar as variáveis de ambiente e o banco de dados.
@@ -120,3 +224,4 @@ Siga os passos abaixo para configurar e executar o projeto:
 - **Sincronização de Tarefas**: A rota `GET /api/tasks` foi implementada para sincronizar as tarefas do ClickUp com o banco de dados interno. Ela utiliza `onConflictDoNothing()` para evitar duplicatas e garantir que apenas novas tarefas sejam inseridas, ou que as existentes sejam ignoradas se já presentes.
 - **Validação de Dados**: A biblioteca Zod é utilizada para validação de esquemas de entrada, garantindo que os dados recebidos pela API estejam no formato esperado e que os campos obrigatórios sejam fornecidos.
 - **Tratamento de Erros**: Um módulo `errorHandler.js` foi criado para centralizar o tratamento de erros, fornecendo respostas consistentes para erros de servidor, validação e erros de "não encontrado".
+
